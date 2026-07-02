@@ -1,0 +1,39 @@
+package com.mmcoe.jdbc_ipl;
+
+import java.io.FileReader;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.util.Properties;
+
+public final class JdbcFactory {
+
+    private JdbcFactory() {
+    }
+
+    public static Connection getConnection() throws SQLException {
+
+        try {
+
+            Properties prop = new Properties();
+
+            prop.load(new FileReader("src/mysql.info"));
+
+            Class.forName(prop.getProperty("driver"));
+
+            return DriverManager.getConnection(
+                    prop.getProperty("url"),
+                    prop.getProperty("user"),
+                    prop.getProperty("pass"));
+
+        }
+
+        catch (Exception e) {
+
+            throw new SQLException(e.getMessage());
+
+        }
+
+    }
+
+}
